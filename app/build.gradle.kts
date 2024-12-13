@@ -79,6 +79,9 @@ dependencies {
 
     implementation(libs.kotlin.serialization.json)
 
+    implementation(libs.compose.navigation)
+    implementation(libs.hilt.compose.navigation)
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
