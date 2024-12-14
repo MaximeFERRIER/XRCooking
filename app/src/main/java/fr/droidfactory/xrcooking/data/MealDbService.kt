@@ -15,7 +15,7 @@ interface MealDbService {
 
     @GET("filter.php")
     suspend fun getMealsByCategory(
-        @Query("c") category: String
+        @Query("c") categoryName: String
     ): Response<MealsByCategoryResponse>
 
 }

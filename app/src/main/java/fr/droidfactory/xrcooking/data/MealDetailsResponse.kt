@@ -7,7 +7,7 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class MealDetailsResponse(
     @SerialName("meals")
-    val meals: List<Meal?>?
+    val meals: List<Meal> = emptyList()
 ) {
     @Serializable
     data class Meal(
