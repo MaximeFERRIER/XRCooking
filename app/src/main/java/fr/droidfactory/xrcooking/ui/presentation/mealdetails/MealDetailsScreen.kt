@@ -14,16 +14,12 @@ import androidx.xr.compose.subspace.SpatialBox
 import androidx.xr.compose.subspace.SpatialPanel
 import androidx.xr.compose.subspace.layout.SubspaceModifier
 import androidx.xr.compose.subspace.layout.fillMaxSize
-import androidx.xr.compose.subspace.layout.height
 import androidx.xr.compose.subspace.layout.movable
-import androidx.xr.compose.subspace.layout.padding
 import androidx.xr.compose.subspace.layout.resizable
 import androidx.xr.compose.subspace.layout.size
-import androidx.xr.compose.subspace.layout.width
 
 @Composable
 internal fun MealDetailsScreen(
-    idMeal: Int,
     onBackClicked: () -> Unit
 ) {
     Subspace {

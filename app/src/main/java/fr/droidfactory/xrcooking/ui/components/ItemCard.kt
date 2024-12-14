@@ -18,6 +18,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -62,6 +63,8 @@ internal fun ItemCard(title: String, imageUrl: String, onCardClicked: () -> Unit
                     .fillMaxWidth()
                     .align(Alignment.BottomCenter)
                     .background(color = MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.8f)),
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
                 text = title,
                 color = MaterialTheme.colorScheme.onPrimaryContainer,
                 fontSize = 36.sp

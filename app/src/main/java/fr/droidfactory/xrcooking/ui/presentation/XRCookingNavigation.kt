@@ -28,14 +28,15 @@ internal fun XRCookingNavigation() {
             MealsByCategoryStateful(
                 categoryName = mealsByCategoryArguments.categoryName,
                 navigateToMealDetails = { mealId ->
-
+                    navController.navigate(MealDetails(mealId = mealId))
+                }, onBackClicked = {
+                    navController.popBackStack()
                 }
             )
         }
 
         composable<MealDetails> { navBackStackEntry ->
-            val mealDetailsArguments = navBackStackEntry.toRoute<MealDetails>()
-            MealDetailsScreen(idMeal = mealDetailsArguments.mealId) { navController.popBackStack() }
+            MealDetailsScreen() { navController.popBackStack() }
         }
     }
 }
