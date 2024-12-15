@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ElevatedCard
@@ -49,11 +50,11 @@ internal fun ItemCard(title: String, imageUrl: String, onCardClicked: () -> Unit
                     .build(),
                 contentDescription = title,
                 loading = {
-                    CircularProgressIndicator(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .padding(24.dp)
-                    )
+                    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                        CircularProgressIndicator(
+                            modifier = Modifier.size(16.dp)
+                        )
+                    }
                 },
                 contentScale = ContentScale.FillWidth
             )

@@ -1,11 +1,11 @@
-package fr.droidfactory.xrcooking.data
+package fr.droidfactory.xrcooking.data.models
 
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class MealsByCategoryResponse(
+internal data class MealsByCategoryResponse(
     @SerialName("meals")
     val meals: List<Meal> = emptyList()
 ) {

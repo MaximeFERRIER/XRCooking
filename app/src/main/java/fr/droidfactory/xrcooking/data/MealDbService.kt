@@ -1,10 +1,13 @@
 package fr.droidfactory.xrcooking.data
 
+import fr.droidfactory.xrcooking.data.models.MealCategoriesResponse
+import fr.droidfactory.xrcooking.data.models.MealDetailsResponse
+import fr.droidfactory.xrcooking.data.models.MealsByCategoryResponse
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Query
 
-interface MealDbService {
+internal interface MealDbService {
     @GET("lookup.php")
     suspend fun getMealById(
         @Query("i") mealId: Int
@@ -17,5 +20,4 @@ interface MealDbService {
     suspend fun getMealsByCategory(
         @Query("c") categoryName: String
     ): Response<MealsByCategoryResponse>
-
 }

@@ -62,7 +62,7 @@ private fun CategorySearchScreen(
             .background(color = MaterialTheme.colorScheme.background),
         columns = GridCells.Adaptive(400.dp), contentPadding = PaddingValues(48.dp)
     ) {
-        items(items = categories, key = { item -> "key_${item.id}" }) {
+        items(items = categories, key = { item -> "key_category_search_${item.id}" }) {
             ItemCard(
                 title = it.name,
                 imageUrl = it.imageUrl,

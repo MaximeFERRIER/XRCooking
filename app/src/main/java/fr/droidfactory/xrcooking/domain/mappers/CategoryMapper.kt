@@ -1,6 +1,6 @@
 package fr.droidfactory.xrcooking.domain.mappers
 
-import fr.droidfactory.xrcooking.data.MealCategoriesResponse
+import fr.droidfactory.xrcooking.data.models.MealCategoriesResponse
 import fr.droidfactory.xrcooking.domain.models.CategoryDTO
 
 internal fun MealCategoriesResponse.toDomain(): List<CategoryDTO> {

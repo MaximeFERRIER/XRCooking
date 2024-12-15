@@ -6,7 +6,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
 import fr.droidfactory.xrcooking.ui.presentation.categorysearch.CategorySearchStateful
-import fr.droidfactory.xrcooking.ui.presentation.mealdetails.MealDetailsScreen
+import fr.droidfactory.xrcooking.ui.presentation.mealdetails.MealDetailsStateful
 import fr.droidfactory.xrcooking.ui.presentation.mealsbycategory.MealsByCategoryStateful
 import kotlinx.serialization.Serializable
 
@@ -36,7 +36,7 @@ internal fun XRCookingNavigation() {
         }
 
         composable<MealDetails> { navBackStackEntry ->
-            MealDetailsScreen() { navController.popBackStack() }
+            MealDetailsStateful { navController.popBackStack() }
         }
     }
 }
@@ -48,4 +48,4 @@ private object CategorySearch
 internal data class MealsByCategory(val categoryName: String)
 
 @Serializable
-private data class MealDetails(val mealId: Int)
+internal data class MealDetails(val mealId: Int)
