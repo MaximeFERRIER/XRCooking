@@ -1,5 +1,5 @@
 [versions]
-agp = "8.9.0-alpha05"
+agp = "8.9.0-alpha06"
 kotlin = "2.0.0"
 coreKtx = "1.10.1"
 junit = "4.13.2"
@@ -27,10 +27,8 @@ retrofit-version = "2.9.0"
 okhttp-version = "4.12.0"
 converter-version = "1.0.0"
 
-coroutines-core-version = "1.9.0"
-leakcanary-version = "2.10"
-
-kotlin-serialization-version = "1.6.2"
+kotlin-serialization-version = "1.6.3"
+webkit-version = "1.9.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -60,17 +58,15 @@ hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hilt-
 hilt-compiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "hilt-version" }
 hilt-compose-navigation = { module = "androidx.hilt:hilt-navigation-compose", version.ref = "hilt-navigation-version" }
 
-kotlin-coroutines-core = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-core", version.ref = "coroutines-core-version" }
-kotlin-coroutines-android = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-android", version.ref = "coroutines-core-version" }
 kotlin-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "kotlin-serialization-version" }
 
 retrofit = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit-version" }
 okhttp-interceptor = { group = "com.squareup.okhttp3", name = "logging-interceptor", version.ref = "okhttp-version" }
 converter = { group = "com.jakewharton.retrofit", name = "retrofit2-kotlinx-serialization-converter", version.ref = "converter-version" }
 
-leakcanary = { module = "com.squareup.leakcanary:leakcanary-android", version.ref = "leakcanary-version" }
-
 coil-compose = { group = "io.coil-kt", name = "coil-compose", version.ref = "coil-version" }
+
+webkit = { group = "androidx.webkit", name = "webkit", version.ref = "webkit-version" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

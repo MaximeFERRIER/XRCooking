@@ -1,13 +1,14 @@
 package fr.droidfactory.xrcooking.ui.presentation.mealdetails
 
-import androidx.compose.foundation.background
+import android.annotation.SuppressLint
+import android.webkit.WebView
+import android.webkit.WebViewClient
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.viewinterop.AndroidView
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.xr.compose.spatial.Subspace
 import androidx.xr.compose.subspace.SpatialColumn
@@ -92,12 +93,38 @@ private fun MealDetailsScreen(mealDetails: MealDetailsDTO, onBackClicked: () -> 
         ) {
             TitleOrbiter(title = mealDetails.name)
 
-            Text(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .background(color = MaterialTheme.colorScheme.primaryContainer),
-                text = mealDetails.name
-            )
+            YoutubeVideoPlayer(youtubeUrl = mealDetails.youtubeUrl)
+
         }
     }
+}
+
+@SuppressLint("SetJavaScriptEnabled")
+@Composable
+private fun YoutubeVideoPlayer(youtubeUrl: String) {
+    val videoPlayerScript = getYoutubeVideoPlayerScript(youtubeUrl)
+
+    AndroidView(
+        modifier = Modifier.fillMaxSize(),
+        factory = { context ->
+            WebView(context).apply {
+                with(settings) {
+                    javaScriptEnabled = true
+                    loadsImagesAutomatically = true
+                    loadWithOverviewMode = true
+                    useWideViewPort = true
+                }
+                webViewClient = WebViewClient()
+                loadData(videoPlayerScript, "*", null)
+            }
+        }, update = { view ->
+            view.loadDataWithBaseURL(
+                "https://www.youtube.com",
+                videoPlayerScript,
+                "text/html",
+                "UTF-8",
+                null
+            )
+        }
+    )
 }
