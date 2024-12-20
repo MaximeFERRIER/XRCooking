@@ -21,13 +21,15 @@ internal class CategorySearchViewModel @Inject constructor(
     val categories = _categories.asStateFlow()
 
     init {
-        viewModelScope.launch {
-            _categories.update { ResultState.Loading }
-            mealDbRepository.getCategories().onSuccess { categories ->
-                _categories.update { ResultState.Success(categories) }
-            }.onFailure { exception ->
-                _categories.update { ResultState.Failure(exception) }
-            }
+        loadCategories()
+    }
+
+    fun loadCategories() = viewModelScope.launch {
+        _categories.update { ResultState.Loading }
+        mealDbRepository.getCategories().onSuccess { categories ->
+            _categories.update { ResultState.Success(categories) }
+        }.onFailure { exception ->
+            _categories.update { ResultState.Failure(exception) }
         }
     }
 }

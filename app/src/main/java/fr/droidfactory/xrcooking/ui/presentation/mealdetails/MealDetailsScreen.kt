@@ -91,7 +91,7 @@ private fun MealDetailsScreen(mealDetails: MealDetailsDTO, onBackClicked: () -> 
         SpatialPanel(
             modifier = SubspaceModifier.width(1488.dp).height(816.dp).resizable().movable()
         ) {
-            TitleOrbiter(title = mealDetails.name)
+            TitleOrbiter(title = mealDetails.name, onRequestHomeModeClicked = {})
 
             YoutubeVideoPlayer(youtubeUrl = mealDetails.youtubeUrl)
 

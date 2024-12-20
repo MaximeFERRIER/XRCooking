@@ -62,7 +62,7 @@ private fun MealsByCategoryScreen(
     onBackClicked: () -> Unit
 ) {
     BackOrbiter(onBackClicked = onBackClicked)
-    TitleOrbiter(title = categoryName)
+    TitleOrbiter(title = categoryName, onRequestHomeModeClicked = {})
 
     LazyVerticalGrid(
         modifier = Modifier
