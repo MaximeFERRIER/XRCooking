@@ -7,6 +7,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -21,6 +23,7 @@ import androidx.xr.compose.subspace.layout.movable
 import androidx.xr.compose.subspace.layout.resizable
 import androidx.xr.compose.subspace.layout.size
 import androidx.xr.compose.subspace.layout.width
+import fr.droidfactory.xrcooking.R
 import fr.droidfactory.xrcooking.domain.models.MealDetailsDTO
 import fr.droidfactory.xrcooking.domain.models.ResultState
 import fr.droidfactory.xrcooking.ui.components.AssociationCard
@@ -41,7 +44,7 @@ internal fun MealDetailsStateful(
         when (mealState.value) {
             ResultState.Uninitialized, ResultState.Loading -> {
                 SpatialPanel(
-                    modifier = SubspaceModifier.width(1488.dp).height(816.dp).resizable().movable()
+                    modifier = SubspaceModifier.width(dimensionResource(R.dimen.spatial_panel_width)).height(dimensionResource(R.dimen.spatial_panel_height)).resizable().movable()
                 ) {
                     Loader()
                 }
@@ -67,7 +70,7 @@ private fun MealDetailsScreen(mealDetails: MealDetailsDTO, onBackClicked: () -> 
                 BackOrbiter(onBackClicked = onBackClicked)
 
                 DescriptionCard(
-                    title = "Steps",
+                    title = stringResource(R.string.title_steps),
                     description = mealDetails.instructions
                 )
             }
@@ -77,7 +80,7 @@ private fun MealDetailsScreen(mealDetails: MealDetailsDTO, onBackClicked: () -> 
                 name = "InstructionsPanel"
             ) {
                 AssociationCard(
-                    title = "Ingredients",
+                    title = stringResource(R.string.title_ingredients),
                     associations = mealDetails.ingredients.map { ingredient ->
                         Pair(
                             ingredient.name,
@@ -89,12 +92,11 @@ private fun MealDetailsScreen(mealDetails: MealDetailsDTO, onBackClicked: () -> 
         }
 
         SpatialPanel(
-            modifier = SubspaceModifier.width(1488.dp).height(816.dp).resizable().movable()
+            modifier = SubspaceModifier.width(dimensionResource(R.dimen.spatial_panel_width)).height(dimensionResource(R.dimen.spatial_panel_height)).resizable().movable()
         ) {
             TitleOrbiter(title = mealDetails.name, onRequestHomeModeClicked = {})
 
             YoutubeVideoPlayer(youtubeUrl = mealDetails.youtubeUrl)
-
         }
     }
 }

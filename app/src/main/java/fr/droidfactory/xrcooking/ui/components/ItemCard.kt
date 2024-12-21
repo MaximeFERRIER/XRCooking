@@ -32,7 +32,6 @@ internal fun ItemCard(title: String, imageUrl: String, onCardClicked: () -> Unit
     val context = LocalContext.current
     ElevatedCard(
         modifier = Modifier
-            //.background(color = MaterialTheme.colorScheme.onPrimaryContainer)
             .padding(16.dp)
             .height(250.dp)
             .width(400.dp)

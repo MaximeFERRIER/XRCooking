@@ -10,6 +10,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.xr.compose.spatial.Subspace
@@ -19,6 +20,7 @@ import androidx.xr.compose.subspace.layout.height
 import androidx.xr.compose.subspace.layout.movable
 import androidx.xr.compose.subspace.layout.resizable
 import androidx.xr.compose.subspace.layout.width
+import fr.droidfactory.xrcooking.R
 import fr.droidfactory.xrcooking.domain.models.CategoryMealDTO
 import fr.droidfactory.xrcooking.domain.models.ResultState
 import fr.droidfactory.xrcooking.ui.components.BackOrbiter
@@ -37,7 +39,7 @@ internal fun MealsByCategoryStateful(
 
     Subspace {
         SpatialPanel(
-            modifier = SubspaceModifier.width(1488.dp).height(816.dp).resizable().movable()
+            modifier = SubspaceModifier.width(dimensionResource(R.dimen.spatial_panel_width)).height(dimensionResource(R.dimen.spatial_panel_height)).resizable().movable()
         ) {
             when (mealsByCategory.value) {
                 ResultState.Uninitialized, ResultState.Loading -> Loader()

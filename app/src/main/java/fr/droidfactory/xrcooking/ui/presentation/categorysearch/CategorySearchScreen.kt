@@ -20,7 +20,10 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.xr.compose.platform.LocalHasXrSpatialFeature
@@ -46,17 +49,18 @@ internal fun CategorySearchStateful(
     viewModel: CategorySearchViewModel = hiltViewModel(),
     onNavigateToCategoryMeals: (categoryName: String) -> Unit
 ) {
+    val context = LocalContext.current
     val session = LocalSession.current
     val categoriesState = viewModel.categories.collectAsState()
 
     if (LocalSpatialCapabilities.current.isSpatialUiEnabled) {
         Subspace {
             SpatialPanel(
-                modifier = SubspaceModifier.width(1488.dp).height(816.dp).resizable().movable(),
+                modifier = SubspaceModifier.width(dimensionResource(R.dimen.spatial_panel_width)).height(dimensionResource(R.dimen.spatial_panel_height)).resizable().movable(),
                 name = "CategorySearchStatefulSpatialPanel"
             ) {
                 TitleOrbiter(
-                    title = "Categories",
+                    title = stringResource(R.string.title_categories),
                     onRequestHomeModeClicked = {
                         session?.requestHomeSpaceMode()
                     }
@@ -65,7 +69,7 @@ internal fun CategorySearchStateful(
                     ResultState.Loading, ResultState.Uninitialized -> Loader()
                     is ResultState.Failure -> {
                         ErrorScreen(
-                            message = state.exception.message ?: "Unknow error",
+                            message = state.exception.message ?: context.getString(R.string.error_unknown),
                             onRetryClicked = {
                                 viewModel.loadCategories()
                             }
@@ -94,7 +98,7 @@ internal fun CategorySearchStateful(
                     ),
                     title = {
                         Text(
-                            text = "Categories",
+                            text = stringResource(R.string.title_categories),
                             style = MaterialTheme.typography.headlineLarge
                         )
                     }, actions = {
@@ -118,7 +122,7 @@ internal fun CategorySearchStateful(
                 ResultState.Loading, ResultState.Uninitialized -> Loader()
                 is ResultState.Failure -> {
                     ErrorScreen(
-                        message = state.exception.message ?: "Unknow error",
+                        message = state.exception.message ?: context.getString(R.string.error_unknown),
                         onRetryClicked = {
                             viewModel.loadCategories()
                         }
