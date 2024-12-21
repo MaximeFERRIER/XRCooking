@@ -55,12 +55,7 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             XRCookingTheme {
-                val session = LocalSession.current
-                if (LocalSpatialCapabilities.current.isSpatialUiEnabled) {
-                    XRCookingNavigation()
-                } else {
-                    My2DContent(onRequestFullSpaceMode = { session?.requestFullSpaceMode() })
-                }
+                XRCookingNavigation()
             }
         }
     }

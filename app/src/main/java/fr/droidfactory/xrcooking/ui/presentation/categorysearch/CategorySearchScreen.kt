@@ -1,17 +1,29 @@
+@file:OptIn(ExperimentalMaterial3Api::class)
+
 package fr.droidfactory.xrcooking.ui.presentation.categorysearch
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.xr.compose.platform.LocalHasXrSpatialFeature
 import androidx.xr.compose.platform.LocalSession
 import androidx.xr.compose.platform.LocalSpatialCapabilities
 import androidx.xr.compose.spatial.Subspace
@@ -21,6 +33,7 @@ import androidx.xr.compose.subspace.layout.height
 import androidx.xr.compose.subspace.layout.movable
 import androidx.xr.compose.subspace.layout.resizable
 import androidx.xr.compose.subspace.layout.width
+import fr.droidfactory.xrcooking.R
 import fr.droidfactory.xrcooking.domain.models.CategoryDTO
 import fr.droidfactory.xrcooking.domain.models.ResultState
 import fr.droidfactory.xrcooking.ui.components.ErrorScreen
@@ -71,17 +84,69 @@ internal fun CategorySearchStateful(
             }
         }
     } else {
+        Scaffold(
+            topBar = {
+                TopAppBar(
+                    colors = TopAppBarDefaults.topAppBarColors(
+                        containerColor = MaterialTheme.colorScheme.primaryContainer,
+                        titleContentColor = MaterialTheme.colorScheme.onPrimaryContainer,
+                        actionIconContentColor = MaterialTheme.colorScheme.onPrimaryContainer
+                    ),
+                    title = {
+                        Text(
+                            text = "Categories",
+                            style = MaterialTheme.typography.headlineLarge
+                        )
+                    }, actions = {
+                        if (LocalHasXrSpatialFeature.current) {
+                            IconButton(
+                                onClick = {
+                                    session?.requestFullSpaceMode()
+                                }
+                            ) {
+                                Icon(
+                                    painter = painterResource(R.drawable.ic_full_space_mode_switch),
+                                    contentDescription = null
+                                )
+                            }
+                        }
+                    }
+                )
+            }
+        ) { paddings ->
+            when (val state = categoriesState.value) {
+                ResultState.Loading, ResultState.Uninitialized -> Loader()
+                is ResultState.Failure -> {
+                    ErrorScreen(
+                        message = state.exception.message ?: "Unknow error",
+                        onRetryClicked = {
+                            viewModel.loadCategories()
+                        }
+                    )
+                }
 
+                is ResultState.Success -> {
+                    CategorySearchScreen(
+                        modifier = Modifier.padding(paddings),
+                        categories = state.data,
+                        onCategoryClicked = { categoryName ->
+                            onNavigateToCategoryMeals(categoryName)
+                        }
+                    )
+                }
+            }
+        }
     }
 }
 
 @Composable
 private fun CategorySearchScreen(
+    modifier: Modifier = Modifier,
     categories: List<CategoryDTO>,
     onCategoryClicked: (categoryName: String) -> Unit
 ) {
     LazyVerticalGrid(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxSize()
             .background(color = MaterialTheme.colorScheme.primaryContainer),
         columns = GridCells.Adaptive(400.dp), contentPadding = PaddingValues(48.dp)

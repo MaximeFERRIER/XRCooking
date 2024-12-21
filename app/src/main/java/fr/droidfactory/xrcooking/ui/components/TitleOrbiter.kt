@@ -67,7 +67,7 @@ internal fun TitleOrbiter(title: String, onRequestHomeModeClicked: () -> Unit) {
                     )
                 ) {
                     Icon(
-                        modifier = Modifier.size(72.dp),
+                        modifier = Modifier.size(56.dp),
                         painter = painterResource(id = R.drawable.ic_home_space_mode_switch),
                         contentDescription = stringResource(R.string.switch_to_home_space_mode)
                     )
@@ -133,7 +133,7 @@ internal fun NavigationTitleOrbiter(
                 )
             ) {
                 Icon(
-                    modifier = Modifier.size(72.dp),
+                    modifier = Modifier.size(56.dp),
                     painter = painterResource(id = R.drawable.ic_home_space_mode_switch),
                     contentDescription = stringResource(R.string.switch_to_home_space_mode)
                 )
