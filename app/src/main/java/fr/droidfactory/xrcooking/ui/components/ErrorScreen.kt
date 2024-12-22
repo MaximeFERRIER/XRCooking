@@ -23,8 +23,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 
 @Composable
-internal fun ErrorScreen(message: String, onRetryClicked: () -> Unit) {
-    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+internal fun ErrorScreen(modifier: Modifier = Modifier, message: String, onRetryClicked: () -> Unit) {
+    Box(modifier = modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
         ElevatedCard {
             Column(modifier = Modifier.fillMaxSize().background(color = MaterialTheme.colorScheme.errorContainer).padding(24.dp), verticalArrangement = Arrangement.SpaceEvenly, horizontalAlignment = Alignment.CenterHorizontally) {
                 Icon(modifier = Modifier.size(256.dp), imageVector = Icons.Default.Warning, contentDescription = null, tint = MaterialTheme.colorScheme.onErrorContainer)
