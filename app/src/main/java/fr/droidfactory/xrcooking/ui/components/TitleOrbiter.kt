@@ -49,14 +49,14 @@ internal fun TitleOrbiter(
                     FilledTonalIconButton(
                         onClick = it,
                         modifier = Modifier
-                            .fillMaxHeight()
-                            .aspectRatio(1f),
+                            .size(96.dp),
                         colors = IconButtonDefaults.filledTonalIconButtonColors(
                             containerColor = MaterialTheme.colorScheme.secondaryContainer,
                             contentColor = MaterialTheme.colorScheme.onSecondaryContainer
                         )
                     ) {
                         Icon(
+                            modifier = Modifier.size(56.dp),
                             imageVector = Icons.AutoMirrored.Default.ArrowBack,
                             contentDescription = stringResource(R.string.switch_to_home_space_mode)
                         )
@@ -94,71 +94,6 @@ internal fun TitleOrbiter(
                         contentDescription = stringResource(R.string.switch_to_home_space_mode)
                     )
                 }
-            }
-        }
-    }
-}
-
-@Composable
-internal fun NavigationTitleOrbiter(
-    title: String,
-    onNavigationBackClicked: () -> Unit,
-    onRequestHomeModeClicked: () -> Unit
-) {
-    Orbiter(
-        position = OrbiterEdge.Top,
-        offset = 96.dp,
-        alignment = Alignment.CenterHorizontally
-    ) {
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween
-        ) {
-            FilledTonalIconButton(
-                onClick = onNavigationBackClicked,
-                modifier = Modifier
-                    .fillMaxHeight()
-                    .aspectRatio(1f),
-                colors = IconButtonDefaults.filledTonalIconButtonColors(
-                    containerColor = MaterialTheme.colorScheme.secondaryContainer,
-                    contentColor = MaterialTheme.colorScheme.onSecondaryContainer
-                )
-            ) {
-                Icon(
-                    imageVector = Icons.AutoMirrored.Default.ArrowBack,
-                    contentDescription = stringResource(R.string.switch_to_home_space_mode)
-                )
-            }
-
-            Box(
-                modifier = Modifier
-                    .background(
-                        color = MaterialTheme.colorScheme.secondaryContainer,
-                        shape = CircleShape
-                    )
-                    .height(100.dp)
-                    .width(600.dp),
-                contentAlignment = Alignment.Center
-            ) {
-                Text(
-                    text = title,
-                    color = MaterialTheme.colorScheme.onSecondaryContainer,
-                    fontSize = 48.sp
-                )
-            }
-
-            FilledTonalIconButton(
-                onClick = onRequestHomeModeClicked, modifier = Modifier.size(96.dp),
-                colors = IconButtonDefaults.filledTonalIconButtonColors(
-                    containerColor = MaterialTheme.colorScheme.secondaryContainer,
-                    contentColor = MaterialTheme.colorScheme.onSecondaryContainer
-                )
-            ) {
-                Icon(
-                    modifier = Modifier.size(56.dp),
-                    painter = painterResource(id = R.drawable.ic_home_space_mode_switch),
-                    contentDescription = stringResource(R.string.switch_to_home_space_mode)
-                )
             }
         }
     }

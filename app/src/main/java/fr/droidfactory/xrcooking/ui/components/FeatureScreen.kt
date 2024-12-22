@@ -6,6 +6,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
+import androidx.xr.compose.platform.LocalSession
+import androidx.xr.compose.platform.LocalSpatialCapabilities
 import androidx.xr.compose.spatial.Subspace
 import androidx.xr.compose.subspace.SpatialPanel
 import androidx.xr.compose.subspace.layout.SubspaceModifier
@@ -17,13 +19,13 @@ import fr.droidfactory.xrcooking.R
 
 @Composable
 internal fun FeatureScreen(
-    isSpatialUiEnabled: Boolean,
-    onRequestHomeModeClicked: () -> Unit,
-    requestFullSpaceMode: () -> Unit,
+    title: String,
     onNavigationClicked: (() -> Unit)? = null,
     content: @Composable (Modifier) -> Unit
 ) {
-    if (isSpatialUiEnabled) {
+    val session = LocalSession.current
+
+    if (LocalSpatialCapabilities.current.isSpatialUiEnabled) {
         Subspace {
             SpatialPanel(
                 modifier = SubspaceModifier.width(dimensionResource(R.dimen.spatial_panel_width))
@@ -31,9 +33,11 @@ internal fun FeatureScreen(
                 name = "CategorySearchStatefulSpatialPanel"
             ) {
                 TitleOrbiter(
-                    title = stringResource(R.string.title_categories),
+                    title = title,
                     onNavigationBackClicked = onNavigationClicked,
-                    onRequestHomeModeClicked = onRequestHomeModeClicked
+                    onRequestHomeModeClicked = {
+                        session?.requestHomeSpaceMode()
+                    }
                 )
 
                 content(Modifier)
@@ -43,8 +47,10 @@ internal fun FeatureScreen(
         Scaffold(
             topBar = {
                 TitleTopAppBar(
-                    title = stringResource(R.string.title_categories),
-                    requestFullSpaceMode = requestFullSpaceMode
+                    title = title,
+                    requestFullSpaceMode = {
+                        session?.requestFullSpaceMode()
+                    }
                 )
             }
         ) { paddings ->

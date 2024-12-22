@@ -12,6 +12,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.xr.compose.platform.LocalSession
@@ -30,16 +32,10 @@ internal fun CategorySearchStateful(
     onNavigateToCategoryMeals: (categoryName: String) -> Unit
 ) {
     val context = LocalContext.current
-    val session = LocalSession.current
     val categoriesState = viewModel.categories.collectAsState()
 
     FeatureScreen(
-        isSpatialUiEnabled = LocalSpatialCapabilities.current.isSpatialUiEnabled,
-        onRequestHomeModeClicked = {
-            session?.requestHomeSpaceMode()
-        }, requestFullSpaceMode = {
-            session?.requestFullSpaceMode()
-        }
+       title = stringResource(R.string.title_categories)
     ) { modifier ->
         when (val state = categoriesState.value) {
             ResultState.Loading, ResultState.Uninitialized -> Loader(modifier = modifier)
@@ -77,7 +73,7 @@ private fun CategoryList(
         modifier = modifier
             .fillMaxSize()
             .background(color = MaterialTheme.colorScheme.primaryContainer),
-        columns = GridCells.Adaptive(250.dp), contentPadding = PaddingValues(48.dp)
+        columns = GridCells.Adaptive(dimensionResource(R.dimen.grid_cell_width)), contentPadding = PaddingValues(48.dp)
     ) {
         items(items = categories, key = { item -> "key_category_search_${item.id}" }) {
             ItemCard(
