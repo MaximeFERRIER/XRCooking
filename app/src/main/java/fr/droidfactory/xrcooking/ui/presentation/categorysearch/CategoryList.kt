@@ -1,6 +1,7 @@
 package fr.droidfactory.xrcooking.ui.presentation.categorysearch
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -113,6 +114,7 @@ private fun CategorySearchScreen(
     }
 }
 
+@OptIn(ExperimentalLayoutApi::class)
 @Composable
 private fun CategoryList(
     modifier: Modifier = Modifier,
@@ -123,7 +125,7 @@ private fun CategoryList(
         modifier = modifier
             .fillMaxSize()
             .background(color = MaterialTheme.colorScheme.primaryContainer),
-        columns = GridCells.Adaptive(400.dp), contentPadding = PaddingValues(48.dp)
+        columns = GridCells.Adaptive(250.dp), contentPadding = PaddingValues(48.dp)
     ) {
         items(items = categories, key = { item -> "key_category_search_${item.id}" }) {
             ItemCard(
