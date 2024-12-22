@@ -13,6 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.xr.compose.platform.LocalSession
 import androidx.xr.compose.spatial.Subspace
 import androidx.xr.compose.subspace.SpatialPanel
 import androidx.xr.compose.subspace.layout.SubspaceModifier
@@ -35,6 +36,7 @@ internal fun MealsByCategoryStateful(
     navigateToMealDetails: (mealId: Int) -> Unit,
     onBackClicked: () -> Unit
 ) {
+    val session = LocalSession.current
     val mealsByCategory = viewModel.meals.collectAsState()
 
     Subspace {
@@ -44,7 +46,7 @@ internal fun MealsByCategoryStateful(
             when (mealsByCategory.value) {
                 ResultState.Uninitialized, ResultState.Loading -> Loader()
                 is ResultState.Failure -> {}
-                is ResultState.Success -> MealsByCategoryScreen(
+                is ResultState.Success -> MealsByCategoryList(
                     categoryName = categoryName,
                     meals = (mealsByCategory.value as ResultState.Success).data,
                     onMealClicked = {
@@ -58,13 +60,21 @@ internal fun MealsByCategoryStateful(
 
 @Composable
 private fun MealsByCategoryScreen(
+    isSpatialUiEnabled: Boolean,
+
+) {
+
+}
+
+@Composable
+private fun MealsByCategoryList(
     meals: List<CategoryMealDTO>,
     categoryName: String,
     onMealClicked: (mealId: Int) -> Unit,
     onBackClicked: () -> Unit
 ) {
     BackOrbiter(onBackClicked = onBackClicked)
-    TitleOrbiter(title = categoryName, onRequestHomeModeClicked = {})
+    TitleOrbiter(title = categoryName, onRequestHomeModeClicked = {}, onNavigationBackClicked = null)
 
     LazyVerticalGrid(
         modifier = Modifier

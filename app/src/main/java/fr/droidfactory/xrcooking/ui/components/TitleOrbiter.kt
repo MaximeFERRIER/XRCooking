@@ -30,7 +30,11 @@ import androidx.xr.compose.spatial.OrbiterEdge
 import fr.droidfactory.xrcooking.R
 
 @Composable
-internal fun TitleOrbiter(title: String, onRequestHomeModeClicked: () -> Unit) {
+internal fun TitleOrbiter(
+    title: String,
+    onRequestHomeModeClicked: () -> Unit,
+    onNavigationBackClicked: (() -> Unit)?
+) {
     Orbiter(
         position = OrbiterEdge.Top,
         offset = 96.dp,
@@ -40,7 +44,25 @@ internal fun TitleOrbiter(title: String, onRequestHomeModeClicked: () -> Unit) {
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            Box(modifier = Modifier.weight(1f))
+            Box(modifier = Modifier.weight(1f)) {
+                onNavigationBackClicked?.let {
+                    FilledTonalIconButton(
+                        onClick = it,
+                        modifier = Modifier
+                            .fillMaxHeight()
+                            .aspectRatio(1f),
+                        colors = IconButtonDefaults.filledTonalIconButtonColors(
+                            containerColor = MaterialTheme.colorScheme.secondaryContainer,
+                            contentColor = MaterialTheme.colorScheme.onSecondaryContainer
+                        )
+                    ) {
+                        Icon(
+                            imageVector = Icons.AutoMirrored.Default.ArrowBack,
+                            contentDescription = stringResource(R.string.switch_to_home_space_mode)
+                        )
+                    }
+                }
+            }
 
             Box(
                 modifier = Modifier
