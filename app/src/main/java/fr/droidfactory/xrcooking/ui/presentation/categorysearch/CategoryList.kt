@@ -16,13 +16,11 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.xr.compose.platform.LocalSession
-import androidx.xr.compose.platform.LocalSpatialCapabilities
 import fr.droidfactory.xrcooking.R
 import fr.droidfactory.xrcooking.domain.models.CategoryDTO
 import fr.droidfactory.xrcooking.domain.models.ResultState
 import fr.droidfactory.xrcooking.ui.components.ErrorScreen
-import fr.droidfactory.xrcooking.ui.components.FeatureScreen
+import fr.droidfactory.xrcooking.ui.components.SimpleFeatureScreen
 import fr.droidfactory.xrcooking.ui.components.ItemCard
 import fr.droidfactory.xrcooking.ui.components.Loader
 
@@ -34,7 +32,7 @@ internal fun CategorySearchStateful(
     val context = LocalContext.current
     val categoriesState = viewModel.categories.collectAsState()
 
-    FeatureScreen(
+    SimpleFeatureScreen(
        title = stringResource(R.string.title_categories)
     ) { modifier ->
         when (val state = categoriesState.value) {

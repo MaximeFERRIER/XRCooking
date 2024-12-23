@@ -18,7 +18,7 @@ import fr.droidfactory.xrcooking.R
 import fr.droidfactory.xrcooking.domain.models.CategoryMealDTO
 import fr.droidfactory.xrcooking.domain.models.ResultState
 import fr.droidfactory.xrcooking.ui.components.ErrorScreen
-import fr.droidfactory.xrcooking.ui.components.FeatureScreen
+import fr.droidfactory.xrcooking.ui.components.SimpleFeatureScreen
 import fr.droidfactory.xrcooking.ui.components.ItemCard
 import fr.droidfactory.xrcooking.ui.components.Loader
 
@@ -32,7 +32,7 @@ internal fun MealsByCategoryStateful(
     val context = LocalContext.current
     val mealsByCategory = viewModel.meals.collectAsState()
 
-    FeatureScreen(
+    SimpleFeatureScreen(
         title = categoryName,
         onNavigationClicked = onBackClicked
     ) { modifier ->

@@ -5,7 +5,6 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
-import androidx.compose.ui.res.stringResource
 import androidx.xr.compose.platform.LocalSession
 import androidx.xr.compose.platform.LocalSpatialCapabilities
 import androidx.xr.compose.spatial.Subspace
@@ -18,7 +17,7 @@ import androidx.xr.compose.subspace.layout.width
 import fr.droidfactory.xrcooking.R
 
 @Composable
-internal fun FeatureScreen(
+internal fun SimpleFeatureScreen(
     title: String,
     onNavigationClicked: (() -> Unit)? = null,
     content: @Composable (Modifier) -> Unit

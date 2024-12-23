@@ -33,8 +33,6 @@ internal fun ItemCard(title: String, imageUrl: String, onCardClicked: () -> Unit
     ElevatedCard(
         modifier = Modifier
             .padding(16.dp)
-            /*.height(250.dp)
-            .width(400.dp)*/
             .clickable(onClick = onCardClicked)
     ) {
         Box(

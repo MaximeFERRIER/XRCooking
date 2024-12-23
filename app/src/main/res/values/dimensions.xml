@@ -2,5 +2,6 @@
 <resources>
     <dimen name="spatial_panel_width">1488dp</dimen>
     <dimen name="spatial_panel_height">816dp</dimen>
+    <dimen name="spatial_panel_column_width">744dp</dimen>
     <dimen name="grid_cell_width">250dp</dimen>
 </resources>
