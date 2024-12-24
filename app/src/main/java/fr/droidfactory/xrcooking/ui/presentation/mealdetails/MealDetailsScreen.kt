@@ -4,7 +4,8 @@ import android.annotation.SuppressLint
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -16,7 +17,9 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
@@ -93,7 +96,9 @@ private fun StepsScreen(
 
     ) {
     LazyColumn(
-        modifier = modifier.fillMaxSize().background(color = MaterialTheme.colorScheme.primaryContainer)
+        modifier = modifier
+            .fillMaxSize()
+            .background(color = MaterialTheme.colorScheme.primaryContainer)
     ) {
         item(key = "key_ingredients_title") {
             Text(
@@ -150,29 +155,35 @@ private fun StepsScreen(
 @SuppressLint("SetJavaScriptEnabled")
 @Composable
 private fun YoutubeVideoPlayer(modifier: Modifier = Modifier, youtubeUrl: String) {
-    val videoPlayerScript = getYoutubeVideoPlayerScript(youtubeUrl)
 
-    AndroidView(
-        modifier = modifier,
-        factory = { context ->
-            WebView(context).apply {
-                with(settings) {
-                    javaScriptEnabled = true
-                    loadsImagesAutomatically = true
-                    loadWithOverviewMode = true
-                    useWideViewPort = true
+    BoxWithConstraints (
+        modifier = modifier
+            .fillMaxSize()
+            .background(color = Color.Transparent),
+        contentAlignment = Alignment.Center
+    ) {
+        val videoPlayerScript = getYoutubeVideoPlayerScript(youtubeUrl = youtubeUrl, width = this.maxWidth, height = this.maxHeight)
+        AndroidView(
+            factory = { context ->
+                WebView(context).apply {
+                    with(settings) {
+                        javaScriptEnabled = true
+                        loadsImagesAutomatically = true
+                        loadWithOverviewMode = true
+                        useWideViewPort = true
+                    }
+                    webViewClient = WebViewClient()
+                    loadData(videoPlayerScript, "*", null)
                 }
-                webViewClient = WebViewClient()
-                loadData(videoPlayerScript, "*", null)
+            }, update = { view ->
+                view.loadDataWithBaseURL(
+                    "https://www.youtube.com",
+                    videoPlayerScript,
+                    "text/html",
+                    "UTF-8",
+                    null
+                )
             }
-        }, update = { view ->
-            view.loadDataWithBaseURL(
-                "https://www.youtube.com",
-                videoPlayerScript,
-                "text/html",
-                "UTF-8",
-                null
-            )
-        }
-    )
+        )
+    }
 }
