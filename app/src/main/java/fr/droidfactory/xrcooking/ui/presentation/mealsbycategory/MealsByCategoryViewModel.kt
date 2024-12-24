@@ -26,13 +26,15 @@ internal class MealsByCategoryViewModel @Inject constructor(
     val meals = _meals.asStateFlow()
 
     init {
-        viewModelScope.launch {
-            _meals.update { ResultState.Loading }
-            mealDbRepository.getMealsByCategory(categoryName = mealsByCategoryArguments.categoryName).onSuccess { mealsByCategory ->
-                _meals.update { ResultState.Success(mealsByCategory) }
-            }.onFailure { error ->
-                _meals.update { ResultState.Failure(error) }
-            }
+        getMealsByCategory()
+    }
+
+    fun getMealsByCategory() = viewModelScope.launch {
+        _meals.update { ResultState.Loading }
+        mealDbRepository.getMealsByCategory(categoryName = mealsByCategoryArguments.categoryName).onSuccess { mealsByCategory ->
+            _meals.update { ResultState.Success(mealsByCategory) }
+        }.onFailure { error ->
+            _meals.update { ResultState.Failure(error) }
         }
     }
 }

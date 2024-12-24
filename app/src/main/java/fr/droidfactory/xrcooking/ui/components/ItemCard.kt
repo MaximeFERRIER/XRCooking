@@ -33,14 +33,10 @@ internal fun ItemCard(title: String, imageUrl: String, onCardClicked: () -> Unit
     ElevatedCard(
         modifier = Modifier
             .padding(16.dp)
-            .height(250.dp)
-            .width(400.dp)
             .clickable(onClick = onCardClicked)
     ) {
         Box(
-            modifier = Modifier.fillMaxSize().background(
-                color = MaterialTheme.colorScheme.onBackground
-            )
+            modifier = Modifier.fillMaxSize()
         ) {
             SubcomposeAsyncImage(
                 modifier = Modifier
@@ -63,11 +59,11 @@ internal fun ItemCard(title: String, imageUrl: String, onCardClicked: () -> Unit
                 modifier = Modifier
                     .fillMaxWidth()
                     .align(Alignment.BottomCenter)
-                    .background(color = MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.8f)),
+                    .background(color = MaterialTheme.colorScheme.primary.copy(alpha = 0.8f)),
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
                 text = title,
-                color = MaterialTheme.colorScheme.onPrimaryContainer,
+                color = MaterialTheme.colorScheme.onPrimary,
                 fontSize = 36.sp
             )
         }
