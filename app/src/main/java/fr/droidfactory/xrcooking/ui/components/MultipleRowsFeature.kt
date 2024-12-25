@@ -116,7 +116,7 @@ private fun getDimensions(isLeftPanelPresent: Boolean, isRightPanelPresent: Bool
             right = dimensionResource(R.dimen.spatial_panel_side_column_width),
         )
 
-        isLeftPanelPresent && !isRightPanelPresent -> PanelDimensions( //1/3 et 2/3
+        isLeftPanelPresent && !isRightPanelPresent -> PanelDimensions(
             left = dimensionResource(R.dimen.spatial_panel_side_column_width) + (dimensionResource(R.dimen.spatial_panel_side_column_width) / 2),
             main = dimensionResource(R.dimen.spatial_panel_main_column_width) + (dimensionResource(R.dimen.spatial_panel_side_column_width) / 2),
             right = 0.dp
