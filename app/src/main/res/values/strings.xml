@@ -10,4 +10,6 @@
     <string name="title_categories">Categories</string>
     <string name="title_ingredients">Ingredients</string>
     <string name="title_steps">Steps</string>
+
+    <string name="accessibility_navigation_back">Navigate back</string>
 </resources>

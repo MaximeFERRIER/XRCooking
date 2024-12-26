@@ -4,10 +4,8 @@ import android.annotation.SuppressLint
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -97,7 +95,6 @@ private fun StepsScreen(
     ) {
     LazyColumn(
         modifier = modifier
-            .fillMaxSize()
             .background(color = MaterialTheme.colorScheme.primaryContainer)
     ) {
         item(key = "key_ingredients_title") {
@@ -158,7 +155,6 @@ private fun YoutubeVideoPlayer(modifier: Modifier = Modifier, youtubeUrl: String
 
     BoxWithConstraints (
         modifier = modifier
-            .fillMaxSize()
             .background(color = Color.Transparent),
         contentAlignment = Alignment.Center
     ) {

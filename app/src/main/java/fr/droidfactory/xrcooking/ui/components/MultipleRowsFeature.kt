@@ -1,6 +1,6 @@
 package fr.droidfactory.xrcooking.ui.components
 
-import android.content.Context
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
@@ -33,7 +33,10 @@ internal fun MultipleRowFeature(
     val session = LocalSession.current
 
     if (LocalSpatialCapabilities.current.isSpatialUiEnabled) {
-        val dimensions = getDimensions(isLeftPanelPresent = leftContent != null, isRightPanelPresent = rightContent != null)
+        val dimensions = getDimensions(
+            isLeftPanelPresent = leftContent != null,
+            isRightPanelPresent = rightContent != null
+        )
 
         Subspace {
             SpatialRow(
@@ -51,7 +54,7 @@ internal fun MultipleRowFeature(
                             .padding(horizontal = 16.dp),
                         name = "MultipleRowFeature_Left_$title"
                     ) {
-                        content(Modifier)
+                        content(Modifier.fillMaxSize())
                     }
                 }
 
@@ -71,7 +74,7 @@ internal fun MultipleRowFeature(
                         }
                     )
 
-                    mainContent(Modifier)
+                    mainContent(Modifier.fillMaxSize())
                 }
 
                 rightContent?.let { content ->
@@ -84,7 +87,7 @@ internal fun MultipleRowFeature(
                             .padding(horizontal = 16.dp),
                         name = "MultipleRowFeature_Right_$title"
                     ) {
-                        content(Modifier)
+                        content(Modifier.fillMaxSize())
                     }
                 }
             }
@@ -94,6 +97,7 @@ internal fun MultipleRowFeature(
             topBar = {
                 TitleTopAppBar(
                     title = title,
+                    onNavigationClicked = onNavigationClicked,
                     requestFullSpaceMode = {
                         session?.requestFullSpaceMode()
                     }
@@ -108,8 +112,11 @@ internal fun MultipleRowFeature(
 }
 
 @Composable
-private fun getDimensions(isLeftPanelPresent: Boolean, isRightPanelPresent: Boolean): PanelDimensions {
-     return when {
+private fun getDimensions(
+    isLeftPanelPresent: Boolean,
+    isRightPanelPresent: Boolean
+): PanelDimensions {
+    return when {
         isLeftPanelPresent && isRightPanelPresent -> PanelDimensions(
             left = dimensionResource(R.dimen.spatial_panel_side_column_width),
             main = dimensionResource(R.dimen.spatial_panel_main_column_width),

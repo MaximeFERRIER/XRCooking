@@ -1,5 +1,8 @@
 package fr.droidfactory.xrcooking.ui.presentation
 
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.scaleIn
+import androidx.compose.animation.scaleOut
 import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -14,7 +17,14 @@ import kotlinx.serialization.Serializable
 internal fun XRCookingNavigation() {
     val navController = rememberNavController()
 
-    NavHost(navController = navController, startDestination = CategorySearch) {
+    NavHost(
+        navController = navController,
+        startDestination = CategorySearch,
+        enterTransition = { scaleIn(animationSpec = tween(1000)) },
+        popEnterTransition = { scaleIn(animationSpec = tween(1000)) },
+        exitTransition = { scaleOut(animationSpec = tween(1000)) },
+        popExitTransition = { scaleOut(animationSpec = tween(1000)) }
+    ) {
         composable<CategorySearch> {
             CategorySearchStateful(
                 onNavigateToCategoryMeals = {
