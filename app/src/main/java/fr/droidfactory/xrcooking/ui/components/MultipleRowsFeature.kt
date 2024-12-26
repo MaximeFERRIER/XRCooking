@@ -1,7 +1,12 @@
 package fr.droidfactory.xrcooking.ui.components
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListScope
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -26,9 +31,9 @@ import fr.droidfactory.xrcooking.R
 internal fun MultipleRowFeature(
     title: String,
     onNavigationClicked: (() -> Unit)? = null,
-    mainContent: @Composable (Modifier) -> Unit,
-    leftContent: (@Composable (Modifier) -> Unit)? = null,
-    rightContent: (@Composable (Modifier) -> Unit)? = null,
+    mainContent: LazyListScope.(Modifier) -> Unit,
+    leftContent: (LazyListScope.(Modifier) -> Unit)? = null,
+    rightContent: (LazyListScope.(Modifier) -> Unit)? = null,
 ) {
     val session = LocalSession.current
 
@@ -54,7 +59,13 @@ internal fun MultipleRowFeature(
                             .padding(horizontal = 16.dp),
                         name = "MultipleRowFeature_Left_$title"
                     ) {
-                        content(Modifier.fillMaxSize())
+                        LazyColumn(
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .background(color = MaterialTheme.colorScheme.primaryContainer)
+                        ) {
+                            content(Modifier)
+                        }
                     }
                 }
 
@@ -64,7 +75,7 @@ internal fun MultipleRowFeature(
                         .fillMaxHeight()
                         .resizable()
                         .movable(),
-                    name = "CategorySearchStatefulSpatialPanel"
+                    name = "MultipleRowFeature_Main_$title"
                 ) {
                     TitleOrbiter(
                         title = title,
@@ -73,8 +84,13 @@ internal fun MultipleRowFeature(
                             session?.requestHomeSpaceMode()
                         }
                     )
-
-                    mainContent(Modifier.fillMaxSize())
+                    LazyColumn(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .background(color = MaterialTheme.colorScheme.primaryContainer)
+                    ) {
+                        mainContent(Modifier)
+                    }
                 }
 
                 rightContent?.let { content ->
@@ -87,7 +103,13 @@ internal fun MultipleRowFeature(
                             .padding(horizontal = 16.dp),
                         name = "MultipleRowFeature_Right_$title"
                     ) {
-                        content(Modifier.fillMaxSize())
+                        LazyColumn(
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .background(color = MaterialTheme.colorScheme.primaryContainer)
+                        ) {
+                            content(Modifier)
+                        }
                     }
                 }
             }
@@ -104,9 +126,22 @@ internal fun MultipleRowFeature(
                 )
             }
         ) { paddings ->
-            leftContent?.let { content -> content(Modifier.padding(paddings)) }
-            mainContent(Modifier.padding(paddings))
-            rightContent?.let { content -> content(Modifier.padding(paddings)) }
+            LazyColumn(
+                modifier = Modifier
+                    .padding(paddings)
+                    .background(color = MaterialTheme.colorScheme.primaryContainer)
+                    .fillMaxWidth()
+            ) {
+                leftContent?.let { content ->
+                    content(Modifier.padding(paddings))
+                }
+
+                mainContent(Modifier.padding(paddings))
+
+                rightContent?.let { content ->
+                    content(Modifier.padding(paddings))
+                }
+            }
         }
     }
 }
@@ -130,7 +165,9 @@ private fun getDimensions(
         )
 
         else -> PanelDimensions(
-            right = dimensionResource(R.dimen.spatial_panel_side_column_width) + (dimensionResource(R.dimen.spatial_panel_side_column_width) / 2),
+            right = dimensionResource(R.dimen.spatial_panel_side_column_width) + (dimensionResource(
+                R.dimen.spatial_panel_side_column_width
+            ) / 2),
             main = dimensionResource(R.dimen.spatial_panel_main_column_width) + (dimensionResource(R.dimen.spatial_panel_side_column_width) / 2),
             left = 0.dp
         )

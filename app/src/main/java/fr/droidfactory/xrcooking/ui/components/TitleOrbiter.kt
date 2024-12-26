@@ -76,7 +76,7 @@ internal fun TitleOrbiter(
                     modifier = Modifier.padding(horizontal = 16.dp),
                     text = title,
                     color = MaterialTheme.colorScheme.onSecondaryContainer,
-                    fontSize = 48.sp,
+                    fontSize = 36.sp,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis
                 )
