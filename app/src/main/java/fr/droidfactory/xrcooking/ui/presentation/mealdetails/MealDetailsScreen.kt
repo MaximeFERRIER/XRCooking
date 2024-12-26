@@ -111,7 +111,7 @@ private fun LazyListScope.stepsScreen(
                 .padding(horizontal = 16.dp),
             text = stringResource(R.string.title_ingredients),
             color = MaterialTheme.colorScheme.onSecondaryContainer,
-            textAlign = TextAlign.Center,
+            textAlign = TextAlign.Start,
             fontSize = 48.sp
         )
         Spacer(modifier = Modifier.height(16.dp))
@@ -136,7 +136,7 @@ private fun LazyListScope.stepsScreen(
                 .padding(horizontal = 16.dp),
             text = stringResource(R.string.title_steps),
             color = MaterialTheme.colorScheme.onSecondaryContainer,
-            textAlign = TextAlign.Center,
+            textAlign = TextAlign.Start,
             fontSize = 48.sp
         )
         Spacer(modifier = Modifier.height(16.dp))
@@ -158,13 +158,15 @@ private fun LazyListScope.stepsScreen(
 private fun LazyListScope.youtubeVideoPlayer(modifier: Modifier = Modifier, youtubeUrl: String) {
     item(key = "key_spatial_meal_details_video_$youtubeUrl") {
         BoxWithConstraints(
-            modifier = modifier.fillParentMaxSize().background(color = Color.Transparent),
+            modifier = modifier.fillParentMaxSize(),
             contentAlignment = Alignment.Center
         ) {
+
+            val (width, height) = if(this.maxWidth < this.maxHeight) Pair(this.maxHeight, this.maxWidth) else Pair(this.maxWidth, this.maxHeight)
             val videoPlayerScript = getYoutubeVideoPlayerScript(
                 youtubeUrl = youtubeUrl,
-                width = this.maxWidth,
-                height = if(this.maxHeight == Dp.Infinity) this.maxWidth else this.maxHeight
+                width = width,
+                height = height
             )
 
             AndroidView(

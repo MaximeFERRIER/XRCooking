@@ -130,7 +130,7 @@ internal fun MultipleRowFeature(
                 modifier = Modifier
                     .padding(paddings)
                     .background(color = MaterialTheme.colorScheme.primaryContainer)
-                    .fillMaxWidth()
+                    .fillMaxSize()
             ) {
                 leftContent?.let { content ->
                     content(Modifier.padding(paddings))
