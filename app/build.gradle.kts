@@ -21,18 +21,30 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
-    buildTypes {
+    signingConfigs {
+        create("release") {
+            keyAlias = "your_alias"
+            keyPassword = "your-key-password"
+            storePassword = "your-store-password"
+            storeFile = file("your-store-file-key")
+        }
+    }
 
+    buildTypes {
         debug {
             isMinifyEnabled = false
             isDebuggable = true
         }
         release {
             isMinifyEnabled = true
+            isDebuggable = true
+            isShrinkResources = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
+                "proguard-rules.pro",
+                "proguard-retrofit-rules.pro"
             )
+            signingConfig = signingConfigs.getByName("release")
         }
     }
     compileOptions {
