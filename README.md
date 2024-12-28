@@ -17,8 +17,8 @@ This project utilizes the ThemealDB API to fetch recipes and display them in an 
 
 Watch the project in action:
 
-* [Video 1: YouTube Link]
-* [Video 2: YouTube Link]
+* [XR: https://youtu.be/rgMD9PPZy-g]
+* [Mobile: https://youtube.com/shorts/6trYsDo6SSA?feature=share]
 
 ## License
 
@@ -29,15 +29,6 @@ This project is released under the MIT License.
 To get started with this project, follow these steps:
 
 1. Clone this repository using Git.
-2. Set up the necessary dependencies by running `./gradlew` in the terminal.
-3. Build and run the application on an Android device or emulator.
+2. Get the Android Studio Meerkat version
 
 Note: This is a POC project and is not intended for production use.
-
-## Contributing
-
-Contributions are welcome! Please submit pull requests or issues to help improve this project.
-
-## Contact
-
-For any questions or feedback, please reach out to [your email address].
