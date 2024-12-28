@@ -12,6 +12,7 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.xr.compose.platform.LocalHasXrSpatialFeature
 import fr.droidfactory.xrcooking.R
 
@@ -43,7 +44,9 @@ internal fun TitleTopAppBar(
         title = {
             Text(
                 text = title,
-                style = MaterialTheme.typography.headlineLarge
+                style = MaterialTheme.typography.headlineLarge,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis
             )
         }, actions = {
             if (LocalHasXrSpatialFeature.current) {
