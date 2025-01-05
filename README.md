@@ -4,7 +4,7 @@ XRCooking is a native Android application on Android XR, the new AR SDK from Goo
 
 ## Project Overview
 
-This project utilizes the ThemealDB API to fetch recipes and display them in an interactive 3D environment. The application is designed to be compatible with Samsung's upcoming AR headsets, as well as standard smartphones.
+This project utilizes the TheMealDB API to fetch recipes and display them in an interactive 3D environment. The application is designed to be compatible with Samsung's upcoming AR headsets, as well as standard smartphones.
 
 ## Features
 
