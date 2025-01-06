@@ -31,6 +31,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.dimensionResource
@@ -50,8 +51,13 @@ import androidx.xr.compose.subspace.layout.SubspaceModifier
 import androidx.xr.compose.subspace.layout.fillMaxHeight
 import androidx.xr.compose.subspace.layout.height
 import androidx.xr.compose.subspace.layout.movable
+import androidx.xr.compose.subspace.layout.offset
+import androidx.xr.compose.subspace.layout.onGloballyPositioned
 import androidx.xr.compose.subspace.layout.resizable
+import androidx.xr.compose.subspace.layout.rotate
 import androidx.xr.compose.subspace.layout.width
+import androidx.xr.runtime.math.Pose
+import androidx.xr.runtime.math.Quaternion
 import fr.droidfactory.xrcooking.R
 import fr.droidfactory.xrcooking.domain.models.MealDetailsDTO
 import fr.droidfactory.xrcooking.domain.models.ResultState
@@ -116,7 +122,9 @@ private fun SpatialStateful(
                     .width(dimensionResource(R.dimen.spatial_panel_side_column_width))
                     .fillMaxHeight()
                     .resizable()
-                    .movable(),
+                    .movable()
+                    .offset(x = -(170.dp), z = -(200.dp))
+                    .rotate(Quaternion(y = 0.45f)),
                 name = "MealDetailsStateful_Left"
             ) {
                 when (state) {
@@ -148,7 +156,9 @@ private fun SpatialStateful(
                     .width(dimensionResource(R.dimen.spatial_panel_main_column_width))
                     .fillMaxHeight()
                     .resizable()
-                    .movable(),
+                    .movable()
+                    .offset(x = 50.dp, z = -(200.dp))
+                    .rotate(Quaternion(y = -0.45f)),
                 name = "MealDetailsStateful_Main"
             ) {
                 TitleOrbiter(
