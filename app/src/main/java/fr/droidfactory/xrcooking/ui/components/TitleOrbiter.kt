@@ -51,8 +51,8 @@ internal fun TitleOrbiter(
                         modifier = Modifier
                             .size(96.dp),
                         colors = IconButtonDefaults.filledTonalIconButtonColors(
-                            containerColor = MaterialTheme.colorScheme.secondaryContainer,
-                            contentColor = MaterialTheme.colorScheme.onSecondaryContainer
+                            containerColor = MaterialTheme.colorScheme.primaryContainer,
+                            contentColor = MaterialTheme.colorScheme.onPrimaryContainer
                         )
                     ) {
                         Icon(
@@ -67,7 +67,7 @@ internal fun TitleOrbiter(
             Box(
                 modifier = Modifier
                     .weight(1f)
-                    .background(color = MaterialTheme.colorScheme.secondaryContainer, shape = CircleShape)
+                    .background(color = MaterialTheme.colorScheme.primaryContainer, shape = CircleShape)
                     .height(100.dp)
                     .width(600.dp),
                 contentAlignment = Alignment.Center
@@ -75,7 +75,7 @@ internal fun TitleOrbiter(
                 Text(
                     modifier = Modifier.padding(horizontal = 16.dp),
                     text = title,
-                    color = MaterialTheme.colorScheme.onSecondaryContainer,
+                    color = MaterialTheme.colorScheme.onPrimaryContainer,
                     fontSize = 36.sp,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis
@@ -87,8 +87,8 @@ internal fun TitleOrbiter(
                     modifier = Modifier.size(96.dp),
                     onClick = onRequestHomeModeClicked,
                     colors = IconButtonDefaults.filledTonalIconButtonColors(
-                        containerColor = MaterialTheme.colorScheme.secondaryContainer,
-                        contentColor = MaterialTheme.colorScheme.onSecondaryContainer
+                        containerColor = MaterialTheme.colorScheme.primaryContainer,
+                        contentColor = MaterialTheme.colorScheme.onPrimaryContainer
                     )
                 ) {
                     Icon(

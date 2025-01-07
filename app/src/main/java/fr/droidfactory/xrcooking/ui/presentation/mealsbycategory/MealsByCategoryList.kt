@@ -62,8 +62,7 @@ private fun MealsByCategoryList(
 ) {
     LazyVerticalGrid(
         modifier = modifier
-            .fillMaxSize()
-            .background(color = MaterialTheme.colorScheme.primaryContainer),
+            .fillMaxSize(),
         columns = GridCells.Adaptive(dimensionResource(R.dimen.grid_cell_width)), contentPadding = PaddingValues(48.dp)
     ) {
         items(items = meals, key = { item -> "key_meal_by_category_${item.id}" }) {
