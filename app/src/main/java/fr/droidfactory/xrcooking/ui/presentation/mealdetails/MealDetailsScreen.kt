@@ -28,6 +28,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -47,6 +48,7 @@ import androidx.xr.compose.platform.LocalSpatialCapabilities
 import androidx.xr.compose.spatial.Subspace
 import androidx.xr.compose.subspace.SpatialPanel
 import androidx.xr.compose.subspace.SpatialRow
+import androidx.xr.compose.subspace.Volume
 import androidx.xr.compose.subspace.layout.SubspaceModifier
 import androidx.xr.compose.subspace.layout.fillMaxHeight
 import androidx.xr.compose.subspace.layout.height
@@ -54,12 +56,11 @@ import androidx.xr.compose.subspace.layout.movable
 import androidx.xr.compose.subspace.layout.offset
 import androidx.xr.compose.subspace.layout.resizable
 import androidx.xr.compose.subspace.layout.rotate
+import androidx.xr.compose.subspace.layout.scale
 import androidx.xr.compose.subspace.layout.width
 import androidx.xr.runtime.math.Quaternion
+import androidx.xr.scenecore.Session
 import dev.chrisbanes.haze.HazeState
-import dev.chrisbanes.haze.hazeChild
-import dev.chrisbanes.haze.materials.ExperimentalHazeMaterialsApi
-import dev.chrisbanes.haze.materials.HazeMaterials
 import fr.droidfactory.xrcooking.R
 import fr.droidfactory.xrcooking.domain.models.MealDetailsDTO
 import fr.droidfactory.xrcooking.domain.models.ResultState
@@ -68,6 +69,8 @@ import fr.droidfactory.xrcooking.ui.components.Loader
 import fr.droidfactory.xrcooking.ui.components.TitleOrbiter
 import fr.droidfactory.xrcooking.ui.components.TitleTopAppBar
 import fr.droidfactory.xrcooking.ui.components.blur
+import fr.droidfactory.xrcooking.ui.presentation.mealdetails.model3d.Wolf3D
+import kotlinx.coroutines.launch
 
 @Composable
 internal fun MealDetailsStateful(
@@ -80,10 +83,15 @@ internal fun MealDetailsStateful(
 
     if (LocalSpatialCapabilities.current.isSpatialUiEnabled) {
         SpatialStateful(
+            session = session,
             state = mealState.value,
             title = title,
-            onNavigationBackClicked = onBackClicked,
+            onNavigationBackClicked = {
+                Wolf3D.freeResources()
+                onBackClicked()
+            },
             onRequestHomeSpaceMode = {
+                Wolf3D.freeResources()
                 session?.requestHomeSpaceMode()
             }, onRetryClicked = {
                 viewModel.getMealDetails()
@@ -103,9 +111,9 @@ internal fun MealDetailsStateful(
     }
 }
 
-@OptIn(ExperimentalHazeMaterialsApi::class)
 @Composable
 private fun SpatialStateful(
+    session: Session?,
     state: ResultState<MealDetailsDTO>,
     title: String,
     onNavigationBackClicked: () -> Unit,
@@ -115,6 +123,7 @@ private fun SpatialStateful(
     val context = LocalContext.current
     val localDensity = LocalDensity.current
     val hazeState = remember { HazeState() }
+    val scope = rememberCoroutineScope()
 
     Subspace {
         SpatialRow(
@@ -135,7 +144,9 @@ private fun SpatialStateful(
                 when (state) {
                     ResultState.Uninitialized, ResultState.Loading -> Loader(modifier = Modifier.fillMaxSize())
                     is ResultState.Failure -> ErrorScreen(
-                        modifier = Modifier.fillMaxSize().blur(hazeState = hazeState),
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .blur(hazeState = hazeState),
                         message = state.exception.message
                             ?: context.getString(R.string.error_unknown),
                         onRetryClicked = onRetryClicked
@@ -195,6 +206,21 @@ private fun SpatialStateful(
 
                             YoutubePlayer(videoPlayerScript)
                         }
+                    }
+                }
+            }
+        }
+
+
+        SpatialPanel(
+            modifier = SubspaceModifier
+                .width(dimensionResource(R.dimen.spatial_panel_width))
+                .height(150.dp)
+        ) {
+            Subspace {
+                Volume {
+                    scope.launch {
+                        Wolf3D.init(session = session)
                     }
                 }
             }
@@ -286,7 +312,9 @@ private fun LazyListScope.stepsScreen(
         Spacer(modifier = Modifier.height(16.dp))
     }
 
-    itemsIndexed(items = ingredients, key = { index, item -> "key_${index}_${item.name}_${item.measure}" }) { _, item ->
+    itemsIndexed(
+        items = ingredients,
+        key = { index, item -> "key_${index}_${item.name}_${item.measure}" }) { _, item ->
         Text(
             modifier = Modifier.padding(horizontal = 16.dp),
             text = "- ${item.name} ${item.measure}",
@@ -314,7 +342,9 @@ private fun LazyListScope.stepsScreen(
     items(items = steps, key = { item -> "item_$item}" }) {
         var isChecked by rememberSaveable { mutableStateOf(false) }
         Row(
-            modifier = Modifier.fillParentMaxWidth().clickable { isChecked = !isChecked }
+            modifier = Modifier
+                .fillParentMaxWidth()
+                .clickable { isChecked = !isChecked }
         ) {
             Box(modifier = Modifier.weight(1f), contentAlignment = Alignment.Center) {
                 Checkbox(
@@ -327,12 +357,14 @@ private fun LazyListScope.stepsScreen(
             }
 
             Text(
-                modifier = Modifier.weight(9f).padding(horizontal = 16.dp),
+                modifier = Modifier
+                    .weight(9f)
+                    .padding(horizontal = 16.dp),
                 text = it,
                 fontSize = 36.sp,
                 color = MaterialTheme.colorScheme.onBackground,
                 lineHeight = 36.sp,
-                textDecoration = if(isChecked) TextDecoration.LineThrough else null
+                textDecoration = if (isChecked) TextDecoration.LineThrough else null
             )
         }
 
