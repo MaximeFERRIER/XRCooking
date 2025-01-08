@@ -1,8 +1,21 @@
 package fr.droidfactory.xrcooking.ui.presentation.mealdetails
 
 import android.annotation.SuppressLint
+import android.view.animation.AlphaAnimation
 import android.webkit.WebView
 import android.webkit.WebViewClient
+import androidx.compose.animation.core.Animatable
+import androidx.compose.animation.core.InfiniteRepeatableSpec
+import androidx.compose.animation.core.RepeatMode
+import androidx.compose.animation.core.Spring
+import androidx.compose.animation.core.animate
+import androidx.compose.animation.core.animateFloat
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.infiniteRepeatable
+import androidx.compose.animation.core.rememberInfiniteTransition
+import androidx.compose.animation.core.rememberTransition
+import androidx.compose.animation.core.spring
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -24,6 +37,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -56,9 +70,10 @@ import androidx.xr.compose.subspace.layout.movable
 import androidx.xr.compose.subspace.layout.offset
 import androidx.xr.compose.subspace.layout.resizable
 import androidx.xr.compose.subspace.layout.rotate
-import androidx.xr.compose.subspace.layout.scale
 import androidx.xr.compose.subspace.layout.width
+import androidx.xr.runtime.math.Pose
 import androidx.xr.runtime.math.Quaternion
+import androidx.xr.runtime.math.Vector3
 import androidx.xr.scenecore.Session
 import dev.chrisbanes.haze.HazeState
 import fr.droidfactory.xrcooking.R
@@ -123,7 +138,6 @@ private fun SpatialStateful(
     val context = LocalContext.current
     val localDensity = LocalDensity.current
     val hazeState = remember { HazeState() }
-    val scope = rememberCoroutineScope()
 
     Subspace {
         SpatialRow(
@@ -211,20 +225,7 @@ private fun SpatialStateful(
             }
         }
 
-
-        SpatialPanel(
-            modifier = SubspaceModifier
-                .width(dimensionResource(R.dimen.spatial_panel_width))
-                .height(150.dp)
-        ) {
-            Subspace {
-                Volume {
-                    scope.launch {
-                        Wolf3D.init(session = session)
-                    }
-                }
-            }
-        }
+        WolfAnimation(session = session)
     }
 }
 
@@ -397,4 +398,42 @@ private fun YoutubePlayer(videoPlayerScript: String) {
             )
         }
     )
+}
+
+@Composable
+private fun WolfAnimation(session: Session?) {
+    val scope = rememberCoroutineScope()
+    var hasBeenPlayed by remember { mutableStateOf(false) }
+
+   val wolfXPosition by animateFloatAsState(
+       targetValue = if(hasBeenPlayed) -1f else 1f,
+       spring(50f)
+   )
+
+    LaunchedEffect(Unit) {
+        hasBeenPlayed = !hasBeenPlayed
+    }
+
+    LaunchedEffect(wolfXPosition) {
+        Wolf3D.move(
+            pose = Pose(
+                translation = Vector3(x = wolfXPosition, y = -0.5f),
+                rotation = Quaternion(y = -0.9f)
+            )
+        )
+    }
+
+    SpatialPanel(
+        modifier = SubspaceModifier
+            .width(dimensionResource(R.dimen.spatial_panel_width))
+            .height(150.dp)
+    ) {
+        Subspace {
+            Volume {
+                scope.launch {
+                    Wolf3D.animateWolf(session = session, animation = Wolf3D.Animations.Walk)
+                }
+            }
+        }
+    }
 }
