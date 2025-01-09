@@ -1,21 +1,8 @@
 package fr.droidfactory.xrcooking.ui.presentation.mealdetails
 
 import android.annotation.SuppressLint
-import android.view.animation.AlphaAnimation
 import android.webkit.WebView
 import android.webkit.WebViewClient
-import androidx.compose.animation.core.Animatable
-import androidx.compose.animation.core.InfiniteRepeatableSpec
-import androidx.compose.animation.core.RepeatMode
-import androidx.compose.animation.core.Spring
-import androidx.compose.animation.core.animate
-import androidx.compose.animation.core.animateFloat
-import androidx.compose.animation.core.animateFloatAsState
-import androidx.compose.animation.core.infiniteRepeatable
-import androidx.compose.animation.core.rememberInfiniteTransition
-import androidx.compose.animation.core.rememberTransition
-import androidx.compose.animation.core.spring
-import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -37,12 +24,10 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -62,7 +47,6 @@ import androidx.xr.compose.platform.LocalSpatialCapabilities
 import androidx.xr.compose.spatial.Subspace
 import androidx.xr.compose.subspace.SpatialPanel
 import androidx.xr.compose.subspace.SpatialRow
-import androidx.xr.compose.subspace.Volume
 import androidx.xr.compose.subspace.layout.SubspaceModifier
 import androidx.xr.compose.subspace.layout.fillMaxHeight
 import androidx.xr.compose.subspace.layout.height
@@ -71,9 +55,7 @@ import androidx.xr.compose.subspace.layout.offset
 import androidx.xr.compose.subspace.layout.resizable
 import androidx.xr.compose.subspace.layout.rotate
 import androidx.xr.compose.subspace.layout.width
-import androidx.xr.runtime.math.Pose
 import androidx.xr.runtime.math.Quaternion
-import androidx.xr.runtime.math.Vector3
 import androidx.xr.scenecore.Session
 import dev.chrisbanes.haze.HazeState
 import fr.droidfactory.xrcooking.R
@@ -84,8 +66,6 @@ import fr.droidfactory.xrcooking.ui.components.Loader
 import fr.droidfactory.xrcooking.ui.components.TitleOrbiter
 import fr.droidfactory.xrcooking.ui.components.TitleTopAppBar
 import fr.droidfactory.xrcooking.ui.components.blur
-import fr.droidfactory.xrcooking.ui.presentation.mealdetails.model3d.Wolf3D
-import kotlinx.coroutines.launch
 
 @Composable
 internal fun MealDetailsStateful(
@@ -102,11 +82,9 @@ internal fun MealDetailsStateful(
             state = mealState.value,
             title = title,
             onNavigationBackClicked = {
-                Wolf3D.freeResources()
                 onBackClicked()
             },
             onRequestHomeSpaceMode = {
-                Wolf3D.freeResources()
                 session?.requestHomeSpaceMode()
             }, onRetryClicked = {
                 viewModel.getMealDetails()
@@ -224,8 +202,6 @@ private fun SpatialStateful(
                 }
             }
         }
-
-        WolfAnimation(session = session)
     }
 }
 
@@ -398,42 +374,4 @@ private fun YoutubePlayer(videoPlayerScript: String) {
             )
         }
     )
-}
-
-@Composable
-private fun WolfAnimation(session: Session?) {
-    val scope = rememberCoroutineScope()
-    var hasBeenPlayed by remember { mutableStateOf(false) }
-
-   val wolfXPosition by animateFloatAsState(
-       targetValue = if(hasBeenPlayed) -1f else 1f,
-       spring(50f)
-   )
-
-    LaunchedEffect(Unit) {
-        hasBeenPlayed = !hasBeenPlayed
-    }
-
-    LaunchedEffect(wolfXPosition) {
-        Wolf3D.move(
-            pose = Pose(
-                translation = Vector3(x = wolfXPosition, y = -0.5f),
-                rotation = Quaternion(y = -0.9f)
-            )
-        )
-    }
-
-    SpatialPanel(
-        modifier = SubspaceModifier
-            .width(dimensionResource(R.dimen.spatial_panel_width))
-            .height(150.dp)
-    ) {
-        Subspace {
-            Volume {
-                scope.launch {
-                    Wolf3D.animateWolf(session = session, animation = Wolf3D.Animations.Walk)
-                }
-            }
-        }
-    }
 }
