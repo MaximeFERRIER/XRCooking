@@ -54,7 +54,7 @@ internal fun TitleOrbiter(
                     FilledTonalIconButton(
                         onClick = it,
                         modifier = Modifier
-                            .size(96.dp).blur(hazeState),
+                            .size(96.dp).clip(CircleShape).blur(hazeState),
                         colors = IconButtonDefaults.filledTonalIconButtonColors(
                             containerColor = Color.Transparent,
                             contentColor = MaterialTheme.colorScheme.onBackground

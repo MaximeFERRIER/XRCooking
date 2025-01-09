@@ -3,6 +3,9 @@ package fr.droidfactory.xrcooking.ui.presentation.mealdetails
 import android.annotation.SuppressLint
 import android.webkit.WebView
 import android.webkit.WebViewClient
+import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -24,6 +27,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -56,7 +60,6 @@ import androidx.xr.compose.subspace.layout.resizable
 import androidx.xr.compose.subspace.layout.rotate
 import androidx.xr.compose.subspace.layout.width
 import androidx.xr.runtime.math.Quaternion
-import androidx.xr.scenecore.Session
 import dev.chrisbanes.haze.HazeState
 import fr.droidfactory.xrcooking.R
 import fr.droidfactory.xrcooking.domain.models.MealDetailsDTO
@@ -67,6 +70,11 @@ import fr.droidfactory.xrcooking.ui.components.TitleOrbiter
 import fr.droidfactory.xrcooking.ui.components.TitleTopAppBar
 import fr.droidfactory.xrcooking.ui.components.blur
 
+private val INITIAL_DEPTH = 50.dp
+private val FINAL_DEPTH = (-250).dp
+private const val INITIAL_ROTATION = 0f
+private const val FINAL_ROTATION = 0.40f
+
 @Composable
 internal fun MealDetailsStateful(
     viewModel: MealDetailsViewModel = hiltViewModel(),
@@ -75,12 +83,13 @@ internal fun MealDetailsStateful(
     val session = LocalSession.current
     val mealState = viewModel.mealState.collectAsState()
     val title = (mealState.value as? ResultState.Success)?.data?.name ?: ""
+    var doesAnimationShouldBePlayed by remember { mutableStateOf(false) }
 
     if (LocalSpatialCapabilities.current.isSpatialUiEnabled) {
         SpatialStateful(
-            session = session,
             state = mealState.value,
             title = title,
+            doesAnimationShouldBePlayed = doesAnimationShouldBePlayed,
             onNavigationBackClicked = {
                 onBackClicked()
             },
@@ -88,6 +97,9 @@ internal fun MealDetailsStateful(
                 session?.requestHomeSpaceMode()
             }, onRetryClicked = {
                 viewModel.getMealDetails()
+            },
+            onAnimationFinished = {
+                doesAnimationShouldBePlayed = false
             }
         )
     } else {
@@ -97,6 +109,7 @@ internal fun MealDetailsStateful(
             onNavigationBackClicked = onBackClicked,
             onRequestFullSpaceMode = {
                 session?.requestFullSpaceMode()
+                doesAnimationShouldBePlayed = true
             }, onRetryClicked = {
                 viewModel.getMealDetails()
             }
@@ -106,16 +119,37 @@ internal fun MealDetailsStateful(
 
 @Composable
 private fun SpatialStateful(
-    session: Session?,
     state: ResultState<MealDetailsDTO>,
     title: String,
+    doesAnimationShouldBePlayed: Boolean,
     onNavigationBackClicked: () -> Unit,
     onRequestHomeSpaceMode: () -> Unit,
-    onRetryClicked: () -> Unit
+    onRetryClicked: () -> Unit,
+    onAnimationFinished: () -> Unit
 ) {
     val context = LocalContext.current
     val localDensity = LocalDensity.current
     val hazeState = remember { HazeState() }
+    var playDepthAnimation by remember { mutableStateOf(false) }
+    var playRotationAnimation by remember { mutableStateOf(false) }
+
+    val depth by animateDpAsState(
+        targetValue = if(playDepthAnimation) FINAL_DEPTH else INITIAL_DEPTH,
+        animationSpec = tween(durationMillis = 3000),
+        finishedListener = {
+            onAnimationFinished()
+        }
+    )
+
+    val rotation by animateFloatAsState(
+        targetValue = if(playRotationAnimation) FINAL_ROTATION else INITIAL_ROTATION,
+        animationSpec = tween(durationMillis = 2000, delayMillis = 2000)
+    )
+
+    LaunchedEffect(Unit) {
+        playDepthAnimation = doesAnimationShouldBePlayed
+        playRotationAnimation = true
+    }
 
     Subspace {
         SpatialRow(
@@ -127,8 +161,12 @@ private fun SpatialStateful(
                 modifier = SubspaceModifier
                     .width(dimensionResource(R.dimen.spatial_panel_side_column_width))
                     .fillMaxHeight()
-                    .offset(x = -(170.dp), z = -(200.dp))
-                    .rotate(Quaternion(y = 0.45f))
+                    .offset(x = -(170.dp), z = if (doesAnimationShouldBePlayed) {
+                        depth
+                    } else {
+                        FINAL_DEPTH
+                    })
+                    .rotate(Quaternion(y = rotation))
                     .resizable()
                     .movable(),
                 name = "MealDetailsStateful_Left"
@@ -163,8 +201,12 @@ private fun SpatialStateful(
                 modifier = SubspaceModifier
                     .width(dimensionResource(R.dimen.spatial_panel_main_column_width))
                     .fillMaxHeight()
-                    .offset(x = 50.dp, z = -(200.dp))
-                    .rotate(Quaternion(y = -0.45f))
+                    .offset(x = 50.dp, z = if (doesAnimationShouldBePlayed) {
+                        depth
+                    } else {
+                        FINAL_DEPTH
+                    })
+                    .rotate(Quaternion(y = rotation.unaryMinus()))
                     .resizable()
                     .movable(),
                 name = "MealDetailsStateful_Main"
