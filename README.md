@@ -17,7 +17,7 @@ This project utilizes the TheMealDB API to fetch recipes and display them in an 
 
 Watch the project in action:
 
-* [XR: https://youtu.be/uTQS7ud_EGA]
+* [XR: https://youtu.be/dHRlFy27DIA]
 * [Mobile: https://youtube.com/shorts/6trYsDo6SSA?feature=share]
 
 ## License

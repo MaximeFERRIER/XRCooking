@@ -37,7 +37,7 @@ android {
         }
         release {
             isMinifyEnabled = true
-            isDebuggable = true
+            isDebuggable = false
             isShrinkResources = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
@@ -97,6 +97,10 @@ dependencies {
     implementation(libs.coil.compose)
 
     implementation(libs.webkit)
+
+    implementation(libs.haze)
+
+    implementation(libs.kotlinx.coroutines.guava)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

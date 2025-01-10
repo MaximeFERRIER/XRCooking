@@ -1,6 +1,5 @@
 package fr.droidfactory.xrcooking.ui.components
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
@@ -18,15 +17,20 @@ import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.xr.compose.spatial.Orbiter
 import androidx.xr.compose.spatial.OrbiterEdge
+import dev.chrisbanes.haze.HazeState
 import fr.droidfactory.xrcooking.R
 
 @Composable
@@ -35,6 +39,7 @@ internal fun TitleOrbiter(
     onRequestHomeModeClicked: () -> Unit,
     onNavigationBackClicked: (() -> Unit)?
 ) {
+    val hazeState = remember { HazeState() }
     Orbiter(
         position = OrbiterEdge.Top,
         offset = 96.dp,
@@ -49,10 +54,10 @@ internal fun TitleOrbiter(
                     FilledTonalIconButton(
                         onClick = it,
                         modifier = Modifier
-                            .size(96.dp),
+                            .size(96.dp).clip(CircleShape).blur(hazeState),
                         colors = IconButtonDefaults.filledTonalIconButtonColors(
-                            containerColor = MaterialTheme.colorScheme.secondaryContainer,
-                            contentColor = MaterialTheme.colorScheme.onSecondaryContainer
+                            containerColor = Color.Transparent,
+                            contentColor = MaterialTheme.colorScheme.onBackground
                         )
                     ) {
                         Icon(
@@ -67,28 +72,30 @@ internal fun TitleOrbiter(
             Box(
                 modifier = Modifier
                     .weight(1f)
-                    .background(color = MaterialTheme.colorScheme.secondaryContainer, shape = CircleShape)
                     .height(100.dp)
-                    .width(600.dp),
+                    .width(600.dp)
+                    .clip(CircleShape)
+                    .blur(hazeState),
                 contentAlignment = Alignment.Center
             ) {
                 Text(
                     modifier = Modifier.padding(horizontal = 16.dp),
                     text = title,
-                    color = MaterialTheme.colorScheme.onSecondaryContainer,
+                    color = MaterialTheme.colorScheme.onBackground,
                     fontSize = 36.sp,
                     maxLines = 1,
-                    overflow = TextOverflow.Ellipsis
+                    overflow = TextOverflow.Ellipsis,
+                    fontWeight = FontWeight.Bold
                 )
             }
 
             Box(modifier = Modifier.weight(1f), contentAlignment = Alignment.CenterEnd) {
                 FilledTonalIconButton(
-                    modifier = Modifier.size(96.dp),
+                    modifier = Modifier.size(96.dp).clip(CircleShape).blur(hazeState),
                     onClick = onRequestHomeModeClicked,
                     colors = IconButtonDefaults.filledTonalIconButtonColors(
-                        containerColor = MaterialTheme.colorScheme.secondaryContainer,
-                        contentColor = MaterialTheme.colorScheme.onSecondaryContainer
+                        containerColor = Color.Transparent,
+                        contentColor = MaterialTheme.colorScheme.onBackground
                     )
                 ) {
                     Icon(

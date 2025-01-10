@@ -1,7 +1,6 @@
 package fr.droidfactory.xrcooking.ui.presentation.categorysearch
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.grid.GridCells
@@ -20,9 +19,9 @@ import fr.droidfactory.xrcooking.R
 import fr.droidfactory.xrcooking.domain.models.CategoryDTO
 import fr.droidfactory.xrcooking.domain.models.ResultState
 import fr.droidfactory.xrcooking.ui.components.ErrorScreen
-import fr.droidfactory.xrcooking.ui.components.SimpleFeatureScreen
 import fr.droidfactory.xrcooking.ui.components.ItemCard
 import fr.droidfactory.xrcooking.ui.components.Loader
+import fr.droidfactory.xrcooking.ui.components.SimpleFeatureScreen
 
 @Composable
 internal fun CategorySearchStateful(
@@ -60,7 +59,6 @@ internal fun CategorySearchStateful(
     }
 }
 
-@OptIn(ExperimentalLayoutApi::class)
 @Composable
 private fun CategoryList(
     modifier: Modifier = Modifier,
@@ -69,8 +67,7 @@ private fun CategoryList(
 ) {
     LazyVerticalGrid(
         modifier = modifier
-            .fillMaxSize()
-            .background(color = MaterialTheme.colorScheme.primaryContainer),
+            .fillMaxSize(),
         columns = GridCells.Adaptive(dimensionResource(R.dimen.grid_cell_width)), contentPadding = PaddingValues(48.dp)
     ) {
         items(items = categories, key = { item -> "key_category_search_${item.id}" }) {
