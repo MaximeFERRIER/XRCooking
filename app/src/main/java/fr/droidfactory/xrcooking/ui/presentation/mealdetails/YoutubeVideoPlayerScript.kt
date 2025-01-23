@@ -1,7 +1,5 @@
 package fr.droidfactory.xrcooking.ui.presentation.mealdetails
 
-import androidx.compose.ui.unit.Dp
-
 internal fun getYoutubeVideoPlayerScript(youtubeUrl: String, width: Float, height: Float): String {
     val videoId = youtubeUrl.substringAfter("v=")
 

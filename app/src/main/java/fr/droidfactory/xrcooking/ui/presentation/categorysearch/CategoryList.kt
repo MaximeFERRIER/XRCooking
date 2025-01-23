@@ -1,12 +1,10 @@
 package fr.droidfactory.xrcooking.ui.presentation.categorysearch
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
@@ -35,7 +33,9 @@ internal fun CategorySearchStateful(
        title = stringResource(R.string.title_categories)
     ) { modifier ->
         when (val state = categoriesState.value) {
-            ResultState.Loading, ResultState.Uninitialized -> Loader(modifier = modifier)
+            ResultState.Loading, ResultState.Uninitialized -> {
+                Loader(modifier = modifier)
+            }
             is ResultState.Failure -> {
                 ErrorScreen(
                     modifier = modifier,
