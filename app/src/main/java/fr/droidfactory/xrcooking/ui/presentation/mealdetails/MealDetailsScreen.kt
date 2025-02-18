@@ -80,7 +80,7 @@ internal fun MealDetailsStateful(
     viewModel: MealDetailsViewModel = hiltViewModel(),
     onBackClicked: () -> Unit
 ) {
-    val session = LocalSession.current
+    val session = checkNotNull(LocalSession.current)
     val mealState = viewModel.mealState.collectAsState()
     val title = (mealState.value as? ResultState.Success)?.data?.name ?: ""
     var doesAnimationShouldBePlayed by remember { mutableStateOf(false) }
@@ -94,7 +94,7 @@ internal fun MealDetailsStateful(
                 onBackClicked()
             },
             onRequestHomeSpaceMode = {
-                session?.requestHomeSpaceMode()
+                session.spatialEnvironment.requestHomeSpaceMode()
             }, onRetryClicked = {
                 viewModel.getMealDetails()
             },
@@ -108,7 +108,7 @@ internal fun MealDetailsStateful(
             title = title,
             onNavigationBackClicked = onBackClicked,
             onRequestFullSpaceMode = {
-                session?.requestFullSpaceMode()
+                session.spatialEnvironment.requestFullSpaceMode()
                 doesAnimationShouldBePlayed = true
             }, onRetryClicked = {
                 viewModel.getMealDetails()

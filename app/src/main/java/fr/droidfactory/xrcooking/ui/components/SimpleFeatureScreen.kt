@@ -31,7 +31,7 @@ internal fun SimpleFeatureScreen(
     onNavigationClicked: (() -> Unit)? = null,
     content: @Composable (Modifier) -> Unit
 ) {
-    val session = LocalSession.current
+    val session = checkNotNull(LocalSession.current)
     var doesAnimationShouldBePlayed by remember { mutableStateOf(false) }
 
     if (LocalSpatialCapabilities.current.isSpatialUiEnabled) {
@@ -66,7 +66,7 @@ internal fun SimpleFeatureScreen(
                     title = title,
                     onNavigationBackClicked = onNavigationClicked,
                     onRequestHomeModeClicked = {
-                        session?.requestHomeSpaceMode()
+                        session.spatialEnvironment.requestHomeSpaceMode()
                     }
                 )
 
@@ -79,7 +79,7 @@ internal fun SimpleFeatureScreen(
                 TitleTopAppBar(
                     title = title,
                     requestFullSpaceMode = {
-                        session?.requestFullSpaceMode()
+                        session.spatialEnvironment.requestFullSpaceMode()
                         doesAnimationShouldBePlayed = true
                     }, onNavigationClicked = onNavigationClicked
                 )
