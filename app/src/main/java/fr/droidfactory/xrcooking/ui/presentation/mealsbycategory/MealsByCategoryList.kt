@@ -1,12 +1,10 @@
 package fr.droidfactory.xrcooking.ui.presentation.mealsbycategory
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
@@ -18,9 +16,9 @@ import fr.droidfactory.xrcooking.R
 import fr.droidfactory.xrcooking.domain.models.CategoryMealDTO
 import fr.droidfactory.xrcooking.domain.models.ResultState
 import fr.droidfactory.xrcooking.ui.components.ErrorScreen
-import fr.droidfactory.xrcooking.ui.components.SimpleFeatureScreen
 import fr.droidfactory.xrcooking.ui.components.ItemCard
 import fr.droidfactory.xrcooking.ui.components.Loader
+import fr.droidfactory.xrcooking.ui.components.SimpleFeatureScreen
 
 @Composable
 internal fun MealsByCategoryStateful(

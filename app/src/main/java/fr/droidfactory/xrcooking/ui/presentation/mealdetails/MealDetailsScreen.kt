@@ -60,6 +60,7 @@ import androidx.xr.compose.subspace.layout.resizable
 import androidx.xr.compose.subspace.layout.rotate
 import androidx.xr.compose.subspace.layout.width
 import androidx.xr.runtime.math.Quaternion
+import androidx.xr.scenecore.scene
 import dev.chrisbanes.haze.HazeState
 import fr.droidfactory.xrcooking.R
 import fr.droidfactory.xrcooking.domain.models.MealDetailsDTO
@@ -94,7 +95,7 @@ internal fun MealDetailsStateful(
                 onBackClicked()
             },
             onRequestHomeSpaceMode = {
-                session.spatialEnvironment.requestHomeSpaceMode()
+                session.scene.spatialEnvironment.requestHomeSpaceMode()
             }, onRetryClicked = {
                 viewModel.getMealDetails()
             },
@@ -108,7 +109,7 @@ internal fun MealDetailsStateful(
             title = title,
             onNavigationBackClicked = onBackClicked,
             onRequestFullSpaceMode = {
-                session.spatialEnvironment.requestFullSpaceMode()
+                session.scene.spatialEnvironment.requestFullSpaceMode()
                 doesAnimationShouldBePlayed = true
             }, onRetryClicked = {
                 viewModel.getMealDetails()
@@ -168,8 +169,7 @@ private fun SpatialStateful(
                     })
                     .rotate(Quaternion(y = rotation))
                     .resizable()
-                    .movable(),
-                name = "MealDetailsStateful_Left"
+                    .movable()
             ) {
                 when (state) {
                     ResultState.Uninitialized, ResultState.Loading -> Loader(modifier = Modifier.fillMaxSize())
@@ -187,6 +187,8 @@ private fun SpatialStateful(
                             modifier = Modifier
                                 .fillMaxSize()
                                 .blur(hazeState = hazeState)
+                                .background(color = MaterialTheme.colorScheme.background)
+
                         ) {
                             stepsScreen(
                                 ingredients = state.data.ingredients,
@@ -208,8 +210,7 @@ private fun SpatialStateful(
                     })
                     .rotate(Quaternion(y = rotation.unaryMinus()))
                     .resizable()
-                    .movable(),
-                name = "MealDetailsStateful_Main"
+                    .movable()
             ) {
                 TitleOrbiter(
                     title = title,
