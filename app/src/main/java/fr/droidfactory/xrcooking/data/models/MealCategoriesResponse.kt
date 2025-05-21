@@ -12,12 +12,12 @@ internal data class MealCategoriesResponse(
     @Serializable
     data class Category(
         @SerialName("idCategory")
-        val idCategory: String?,
+        val idCategory: String? = null,
         @SerialName("strCategory")
-        val strCategory: String?,
+        val strCategory: String? = null,
         @SerialName("strCategoryDescription")
-        val strCategoryDescription: String?,
+        val strCategoryDescription: String? = null,
         @SerialName("strCategoryThumb")
-        val strCategoryThumb: String?
+        val strCategoryThumb: String? = null
     )
 }

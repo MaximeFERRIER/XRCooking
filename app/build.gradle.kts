@@ -9,14 +9,13 @@ plugins {
 
 android {
     namespace = "fr.droidfactory.xrcooking"
-    compileSdk = 35
+    compileSdk = 36
 
     defaultConfig {
         applicationId = "fr.droidfactory.xrcooking"
         minSdk = 34
-        targetSdk = 35
         versionCode = 1
-        versionName = "1.0"
+        versionName = "1.0.1"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }

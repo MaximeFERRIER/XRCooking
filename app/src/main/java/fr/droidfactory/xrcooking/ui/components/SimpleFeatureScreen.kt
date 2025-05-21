@@ -22,6 +22,7 @@ import androidx.xr.compose.subspace.layout.movable
 import androidx.xr.compose.subspace.layout.offset
 import androidx.xr.compose.subspace.layout.resizable
 import androidx.xr.compose.subspace.layout.width
+import androidx.xr.scenecore.scene
 import dev.chrisbanes.haze.HazeState
 import fr.droidfactory.xrcooking.R
 
@@ -59,14 +60,13 @@ internal fun SimpleFeatureScreen(
                         } else {
                             dimensionResource(R.dimen.spatial_panel_depth_final)
                         }
-                    ),
-                name = "CategorySearchStatefulSpatialPanel"
+                    )
             ) {
                 TitleOrbiter(
                     title = title,
                     onNavigationBackClicked = onNavigationClicked,
                     onRequestHomeModeClicked = {
-                        session.spatialEnvironment.requestHomeSpaceMode()
+                        session.scene.spatialEnvironment.requestHomeSpaceMode()
                     }
                 )
 
@@ -79,7 +79,7 @@ internal fun SimpleFeatureScreen(
                 TitleTopAppBar(
                     title = title,
                     requestFullSpaceMode = {
-                        session.spatialEnvironment.requestFullSpaceMode()
+                        session.scene.spatialEnvironment.requestFullSpaceMode()
                         doesAnimationShouldBePlayed = true
                     }, onNavigationClicked = onNavigationClicked
                 )

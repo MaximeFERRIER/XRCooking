@@ -12,10 +12,10 @@ internal data class MealsByCategoryResponse(
     @Serializable
     data class Meal(
         @SerialName("idMeal")
-        val idMeal: String?,
+        val idMeal: String? = null,
         @SerialName("strMeal")
-        val strMeal: String?,
+        val strMeal: String? = null,
         @SerialName("strMealThumb")
-        val strMealThumb: String?
+        val strMealThumb: String? = null
     )
 }
